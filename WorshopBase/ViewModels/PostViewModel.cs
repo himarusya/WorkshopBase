@@ -8,6 +8,8 @@ namespace WorshopBase.ViewModels
 {
     public class PostViewModel
     {
-        public IEnumerable<Post> Posts { get; set; }
+        public int Id { get; set; }
+        public string postName { get; set; }
+        public string descriptionPost { get; set; }
     }
 }

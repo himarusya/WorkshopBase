@@ -8,14 +8,20 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using WorshopBase.Models;
+using WorshopBase.Middleware;
 
 namespace WorshopBase
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IHostingEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+            builder.AddEnvironmentVariables();
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -25,6 +31,9 @@ namespace WorshopBase
         {
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<WorkshopContext>(options => options.UseSqlServer(connection));
+            //добавление сессии
+            services.AddDistributedMemoryCache();
+            services.AddSession();
             services.AddMvc();
         }
 
@@ -40,7 +49,8 @@ namespace WorshopBase
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
+            app.UseSession();
+            app.UseDbInitializer();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>

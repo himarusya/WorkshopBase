@@ -1,0 +1,56 @@
+﻿@model List<WorshopBase.ViewModels.CarViewModel>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style type="text/css">
+    th {
+        background-color: grey;
+        color: white;
+        height: 50px;
+        text-align: center;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    td {
+        border: 1px solid black;
+        text-align: center;
+    }
+
+    caption {
+        text-align: center;
+        font-size: x-large;
+        color: black;
+    }
+</style>
+<table style="margin:20px;">
+    <caption>Заказы</caption>
+    <tr>
+
+        <th>Владелец</th>
+        <th>Марка</th>
+        <th>Мощность</th>
+        <th>Цвет</th>
+        <th>Госномер</th>
+        <th>Год выпуска</th>
+        <th>Номер кузова</th>
+        <th>Номер двигателя</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>@item.fioOwner</td>
+        <td>@item.model</td>
+        <td>@item.vis</td>
+        <td>@item.colour</td>
+        <td>@item.stateNumber</td>
+        <td>@item.yearOfIssue</td>
+        <td>@item.bodyNumber</td>
+        <td>@item.engineNumber</td>
+    </tr>
+    }
+</table>
+

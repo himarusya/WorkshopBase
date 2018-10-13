@@ -1,0 +1,11 @@
+D:\универ\5 семестр\Курсовая работа\WorshopBase\WorshopBase\obj\Debug\netcoreapp2.0\WorkshopBase.csprojAssemblyReference.cache
+D:\универ\5 семестр\Курсовая работа\WorshopBase\WorshopBase\obj\Debug\netcoreapp2.0\WorkshopBase.csproj.CoreCompileInputs.cache
+D:\универ\5 семестр\Курсовая работа\WorshopBase\WorshopBase\obj\Debug\netcoreapp2.0\WorkshopBase.AssemblyInfoInputs.cache
+D:\универ\5 семестр\Курсовая работа\WorshopBase\WorshopBase\obj\Debug\netcoreapp2.0\WorkshopBase.AssemblyInfo.cs
+D:\универ\5 семестр\Курсовая работа\WorshopBase\WorshopBase\bin\Debug\netcoreapp2.0\WorkshopBase.deps.json
+D:\универ\5 семестр\Курсовая работа\WorshopBase\WorshopBase\bin\Debug\netcoreapp2.0\WorkshopBase.runtimeconfig.json
+D:\универ\5 семестр\Курсовая работа\WorshopBase\WorshopBase\bin\Debug\netcoreapp2.0\WorkshopBase.runtimeconfig.dev.json
+D:\универ\5 семестр\Курсовая работа\WorshopBase\WorshopBase\bin\Debug\netcoreapp2.0\WorkshopBase.dll
+D:\универ\5 семестр\Курсовая работа\WorshopBase\WorshopBase\bin\Debug\netcoreapp2.0\WorkshopBase.pdb
+D:\универ\5 семестр\Курсовая работа\WorshopBase\WorshopBase\obj\Debug\netcoreapp2.0\WorkshopBase.dll
+D:\универ\5 семестр\Курсовая работа\WorshopBase\WorshopBase\obj\Debug\netcoreapp2.0\WorkshopBase.pdb

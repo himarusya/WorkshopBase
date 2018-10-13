@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 using WorshopBase.Models;
 
-namespace WorshopBase.Migrations
+namespace WorkshopBase.Migrations
 {
     [DbContext(typeof(WorkshopContext))]
     partial class WorkshopContextModelSnapshot : ModelSnapshot
@@ -19,6 +19,28 @@ namespace WorshopBase.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.3-rtm-10026")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("WorshopBase.Models.Breakdown", b =>
+                {
+                    b.Property<int>("breakdownID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("orderID");
+
+                    b.Property<int>("partID");
+
+                    b.Property<int?>("workerID");
+
+                    b.HasKey("breakdownID");
+
+                    b.HasIndex("orderID");
+
+                    b.HasIndex("partID");
+
+                    b.HasIndex("workerID");
+
+                    b.ToTable("Breakdowns");
+                });
 
             modelBuilder.Entity("WorshopBase.Models.Car", b =>
                 {
@@ -35,9 +57,11 @@ namespace WorshopBase.Migrations
 
                     b.Property<int>("ownerID");
 
+                    b.Property<string>("stateNumber");
+
                     b.Property<int>("vis");
 
-                    b.Property<DateTime>("yearOfIssue");
+                    b.Property<int>("yearOfIssue");
 
                     b.HasKey("carID");
 
@@ -46,22 +70,26 @@ namespace WorshopBase.Migrations
                     b.ToTable("Cars");
                 });
 
-            modelBuilder.Entity("WorshopBase.Models.Mechanic", b =>
+            modelBuilder.Entity("WorshopBase.Models.Order", b =>
                 {
-                    b.Property<int>("mechanicID")
+                    b.Property<int>("orderID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("experience");
+                    b.Property<int>("carID");
 
-                    b.Property<string>("fioMechanic");
+                    b.Property<DateTime?>("dateCompletion");
 
-                    b.Property<string>("qualification");
+                    b.Property<DateTime>("dateReceipt");
 
-                    b.Property<decimal>("salary");
+                    b.Property<int>("workerID");
 
-                    b.HasKey("mechanicID");
+                    b.HasKey("orderID");
 
-                    b.ToTable("Mechanics");
+                    b.HasIndex("carID");
+
+                    b.HasIndex("workerID");
+
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("WorshopBase.Models.Owner", b =>
@@ -82,26 +110,73 @@ namespace WorshopBase.Migrations
                     b.ToTable("Owners");
                 });
 
-            modelBuilder.Entity("WorshopBase.Models.Workroom", b =>
+            modelBuilder.Entity("WorshopBase.Models.Part", b =>
                 {
-                    b.Property<int>("workroomID")
+                    b.Property<int>("partID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("carID");
+                    b.Property<string>("descriptionPart");
 
-                    b.Property<decimal>("cost");
+                    b.Property<string>("partName");
 
-                    b.Property<int>("mechanicID");
+                    b.Property<decimal>("price");
 
-                    b.Property<DateTime>("receiptDate");
+                    b.HasKey("partID");
 
-                    b.HasKey("workroomID");
+                    b.ToTable("Parts");
+                });
 
-                    b.HasIndex("carID");
+            modelBuilder.Entity("WorshopBase.Models.Post", b =>
+                {
+                    b.Property<int>("postID")
+                        .ValueGeneratedOnAdd();
 
-                    b.HasIndex("mechanicID");
+                    b.Property<string>("descriptionPost");
 
-                    b.ToTable("Workrooms");
+                    b.Property<string>("postName");
+
+                    b.HasKey("postID");
+
+                    b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("WorshopBase.Models.Worker", b =>
+                {
+                    b.Property<int>("workerID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("dateOfDismissal");
+
+                    b.Property<DateTime>("dateOfEmployment");
+
+                    b.Property<string>("fioWorker");
+
+                    b.Property<int?>("postID");
+
+                    b.Property<decimal>("salary");
+
+                    b.HasKey("workerID");
+
+                    b.HasIndex("postID");
+
+                    b.ToTable("Workers");
+                });
+
+            modelBuilder.Entity("WorshopBase.Models.Breakdown", b =>
+                {
+                    b.HasOne("WorshopBase.Models.Order", "Order")
+                        .WithMany("Breakdowns")
+                        .HasForeignKey("orderID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WorshopBase.Models.Part", "Part")
+                        .WithMany("Breakdowns")
+                        .HasForeignKey("partID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WorshopBase.Models.Worker", "Worker")
+                        .WithMany("Breakdowns")
+                        .HasForeignKey("workerID");
                 });
 
             modelBuilder.Entity("WorshopBase.Models.Car", b =>
@@ -112,17 +187,24 @@ namespace WorshopBase.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("WorshopBase.Models.Workroom", b =>
+            modelBuilder.Entity("WorshopBase.Models.Order", b =>
                 {
                     b.HasOne("WorshopBase.Models.Car", "Car")
-                        .WithMany("Workrooms")
+                        .WithMany("Orders")
                         .HasForeignKey("carID")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("WorshopBase.Models.Mechanic", "Mechanic")
-                        .WithMany("Workrooms")
-                        .HasForeignKey("mechanicID")
+                    b.HasOne("WorshopBase.Models.Worker", "Worker")
+                        .WithMany("Orders")
+                        .HasForeignKey("workerID")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WorshopBase.Models.Worker", b =>
+                {
+                    b.HasOne("WorshopBase.Models.Post", "Post")
+                        .WithMany("Workers")
+                        .HasForeignKey("postID");
                 });
 #pragma warning restore 612, 618
         }

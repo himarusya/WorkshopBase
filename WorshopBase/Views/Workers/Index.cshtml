@@ -1,0 +1,49 @@
+﻿@model List<WorshopBase.ViewModels.WorkerViewModel>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style type="text/css">
+    th {
+        background-color: grey;
+        color: white;
+        height: 50px;
+        text-align: center;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    td {
+        border: 1px solid black;
+        text-align: center;
+    }
+
+    caption {
+        text-align: center;
+        font-size: x-large;
+        color: black;
+    }
+</style>
+<table style="margin:20px;">
+    <caption>Заказы</caption>
+    <tr>
+        <th>Фамилия</th>
+        <th>Должность</th>
+        <th>Дата устройства</th>
+        <th>Дата увольнения</th>
+        <th>Оклад</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>@item.fioWorker</td>
+        <td>@item.postName</td>
+        <td>@item.dateOfEmployment</td>
+        <td>@item.dateOfDismissal</td>
+        <td>@item.salary</td>
+    </tr>
+    }
+</table>
+

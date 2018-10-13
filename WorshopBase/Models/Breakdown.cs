@@ -10,7 +10,7 @@ namespace WorshopBase.Models
         public int breakdownID { get; set; }
         public int orderID { get; set; }
         public int partID { get; set; }
-        public int workerID { get; set; }
+        public int? workerID { get; set; }
 
         public Worker Worker { get; set; }
         public Order Order { get; set; }

@@ -8,6 +8,11 @@ namespace WorshopBase.ViewModels
 {
     public class WorkerViewModel
     {
-        public IEnumerable<Worker> Workers { get; set; }
+        public int Id { get; set; }
+        public string fioWorker { get; set; }
+        public string postName { get; set; }
+        public DateTime dateOfEmployment { get; set; }
+        public DateTime? dateOfDismissal { get; set; }
+        public decimal salary { get; set; }
     }
 }

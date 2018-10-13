@@ -11,15 +11,15 @@ namespace WorshopBase.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private WorkshopContext _db;
+
+        public HomeController(WorkshopContext db)
         {
-            return View();
+            _db = db;
         }
 
-        public IActionResult About()
+        public IActionResult Index()
         {
-            ViewData["Message"] = "Your application description page.";
-
             return View();
         }
 

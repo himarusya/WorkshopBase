@@ -10,7 +10,7 @@ namespace WorshopBase.Models
         public int orderID { get; set; }
         public int carID { get; set; }
         public DateTime dateReceipt { get; set; }
-        public DateTime dateCompletion { get; set; }
+        public DateTime? dateCompletion { get; set; }
         public int workerID { get; set; }
 
         public ICollection<Breakdown> Breakdowns { get; set; }

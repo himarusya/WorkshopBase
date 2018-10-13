@@ -8,6 +8,14 @@ namespace WorshopBase.ViewModels
 {
     public class CarViewModel
     {
-        public IEnumerable<Car> Cars { get; set; }
+        public int Id { get; set; }
+        public string fioOwner { get; set; }
+        public string model { get; set; }
+        public int vis { get; set; }
+        public string colour { get; set; }
+        public string stateNumber { get; set; }
+        public int yearOfIssue { get; set; }
+        public int bodyNumber { get; set; }
+        public int engineNumber { get; set; }
     }
 }
