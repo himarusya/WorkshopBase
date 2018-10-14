@@ -8,6 +8,8 @@ namespace WorshopBase.ViewModels
 {
     public class BreakdownViewModel
     {
-        public IEnumerable<Breakdown> Breakdowns { get; set; }
+        public int Id { get; set; }
+        public string partName { get; set; }
+        public string fioOwner { get; set; }
     }
 }

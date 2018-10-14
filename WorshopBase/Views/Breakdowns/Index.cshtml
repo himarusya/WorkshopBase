@@ -1,0 +1,43 @@
+﻿@model List<WorshopBase.ViewModels.BreakdownViewModel>
+    @{
+        ViewData["Title"] = "Index";
+    }
+
+    <style type="text/css">
+        th {
+            background-color: grey;
+            color: white;
+            height: 50px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        td {
+            border: 1px solid black;
+            text-align: center;
+        }
+
+        caption {
+            text-align: center;
+            font-size: x-large;
+            color: black;
+        }
+    </style>
+    <table style="margin:20px;">
+        <caption>Поломки</caption>
+        <tr>
+            <th>Деталь</th>
+            <th>Работник</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.partName</td>
+                <td>@item.fioOwner</td>
+            </tr>
+        }
+    </table>
+

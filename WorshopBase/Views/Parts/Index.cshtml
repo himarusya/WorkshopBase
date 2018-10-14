@@ -1,4 +1,4 @@
-﻿@model List<WorshopBase.ViewModels.PostViewModel>
+﻿@model List<WorshopBase.ViewModels.PartViewModel>
 @{
     ViewData["Title"] = "Index";
 }
@@ -27,17 +27,19 @@
     }
 </style>
 <table style="margin:20px;">
-    <caption>Должности</caption>
+    <caption>Детали</caption>
     <tr>
-        <th>Должность</th>
-        <th>Описание</th>
+        <th>Название</th>
+        <th>Цена</th>
+        <th>Характеристика</th>
     </tr>
     @foreach (var item in Model)
     {
-        <tr>
-            <td>@item.postName</td>
-            <td>@item.descriptionPost</td>
-        </tr>
+    <tr>
+        <td>@item.partName</td>
+        <td>@item.price</td>
+        <td>@item.descriptionPart</td>
+    </tr>
     }
 </table>
 
