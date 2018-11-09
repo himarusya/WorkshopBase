@@ -1,47 +1,56 @@
-﻿@model List<WorshopBase.ViewModels.OwnerViewModel>
+﻿@model IEnumerable<WorshopBase.Models.Owner>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Управление владельцами автомобилей";
 }
 
-<style type="text/css">
-    th {
-        background-color: grey;
-        color: white;
-        height: 50px;
-        text-align: center;
-    }
+<h2>Управление владельцами автомобилей</h2>
 
-    table {
-        width: 100%;
-    }
-
-    td {
-        border: 1px solid black;
-        text-align: center;
-    }
-
-    caption {
-        text-align: center;
-        font-size: x-large;
-        color: black;
-    }
-</style>
-<table style="margin:20px;">
-    <caption>Владельцы</caption>
-    <tr>
-        <th>Номер прав</th>
-        <th>Фамилия</th>
-        <th>Адрес</th>
-        <th>Телефон</th>
-    </tr>
-    @foreach (var item in Model)
-    {
+<table class="table table-hover table-bordered text-center" id="tblemps">
+    <thead>
         <tr>
-            <td>@item.driverLicense</td>
-            <td>@item.fioOwner</td>
-            <td>@item.adress</td>
-            <td>@item.phone</td>
+            <th style="text-align: center;">
+                Номер водительских прав
+            </th>
+            <th style="text-align: center;">
+                Фамилия
+            </th>
+            <th style="text-align: center;">
+                Адрес
+            </th>
+            <th style="text-align: center;">
+                Телефон
+            </th>
+            <th style="text-align: center;">
+                <a class="btn btn-primary" asp-action="Create">Добавить владельца</a>
+            </th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.HiddenFor(modelitem => item.ownerID)
+                    <span id="employeename">@item.driverLicense</span>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fioOwner)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.adress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.phone)
+                </td>
+                <td>
+                    <form asp-action="Delete" asp-route-id="@item.ownerID" method="post">
+                        <a class="btn btn-sm btn-warning" asp-action="Cars" asp-route-id="@item.ownerID">Автомобили</a>
+                        <a class="btn btn-sm btn-success glyphicon glyphicon-pencil" asp-action="Edit" asp-route-id="@item.ownerID"></a>
+                        <button type="submit" class="btn btn-sm btn-danger glyphicon glyphicon-trash"></button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
 

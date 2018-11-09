@@ -1,0 +1,33 @@
+﻿@model WorshopBase.ViewModels.OwnersViewModels.EditOwnerViewModel
+@{
+    ViewData["Title"] = "Редактирование водителя" + Model.fioOwner;
+}
+
+<h2>Редактирование водителя @Model.fioOwner</h2>
+
+<form asp-action="Edit">
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input asp-for="Id" type="hidden" />
+    <div class="form-group row">
+        <div class="col-xs-4">
+            <label asp-for="driverLicense" class="control-label">Номер государственных прав</label>
+            <input type="text" asp-for="driverLicense" class="form-control" />
+            <label asp-for="fioOwner" class="control-label">Фамилия</label>
+            <input type="text" asp-for="fioOwner" class="form-control" />
+            <label asp-for="adress" class="control-label">Адрес</label>
+            <input type="text" asp-for="adress" class="form-control" />
+            <label asp-for="phone" class="control-label">Телефон</label>
+            <input type="text" asp-for="phone" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-xs-4">
+            <input type="submit" value="Изменить" class="btn btn-default" />
+        </div>
+    </div>
+
+</form>
+
+<a asp-action="Index" style="float: right;">Назад</a>

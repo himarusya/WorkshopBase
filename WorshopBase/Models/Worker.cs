@@ -9,7 +9,7 @@ namespace WorshopBase.Models
     {
         public int workerID { get; set; }
         public string fioWorker { get; set; }
-        public int? postID { get; set; }
+        public int postID { get; set; }
         public DateTime dateOfEmployment { get; set; }
         public DateTime? dateOfDismissal { get; set; }
         public decimal salary { get; set; }

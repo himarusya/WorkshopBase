@@ -29,38 +29,106 @@ namespace WorshopBase.Data
             InitializeBreakdowns(db, breakdownsNumber, ordersNumber, partsNumber, workersNumber);            
         }
 
-        private static void InitializeBreakdowns(WorkshopContext db, int breakdownsNumber, int ordersNumber, int partsNumber, int workersNumber)
+        private static void InitializeOwners(WorkshopContext db, int ownersNumber)
         {
             db.Database.EnsureCreated();
 
-            //проверка, занесены ли данные в Workers
-            if (db.Breakdowns.Any())
+            //проверка, занесены ли данные в Owners
+            if (db.Owners.Any())
             {
                 return; //бд иницилизирована
             }
 
-            int orderID;
-            int partID;
-            int workerID;
+            int driverLicense;
+            string fioOwner;
+            string adress;
+            int phone;
 
             Random randomObj = new Random(1);
 
-            for(int breakdownID = 1; breakdownID <= breakdownsNumber; breakdownID++)
+            for (int ownerID = 1; ownerID <= ownersNumber; ownerID++)
             {
-                orderID = db.Orders.Skip(randomObj.Next(0, db.Orders.Count() - 2)).First().orderID;
-                partID = db.Parts.Skip(randomObj.Next(0, db.Parts.Count() - 2)).First().partID;
-                workerID = db.Workers.Skip(randomObj.Next(0, db.Workers.Count() - 2)).First().workerID;
+                driverLicense = randomObj.Next(1, 3000);
+                fioOwner = MyRandom.RandomString(15);
+                adress = MyRandom.RandomString(15);
+                phone = randomObj.Next(1, 1000000);
 
-                db.Breakdowns.Add(new Breakdown
+                db.Owners.Add(new Owner
                 {
-                    orderID = orderID,
-                    partID = partID,
-                    workerID = workerID
+                    driverLicense = driverLicense,
+                    fioOwner = fioOwner,
+                    adress = adress,
+                    phone = phone
                 });
             }
 
+            //сохранение изменений в бд, связанную с объектом контекста
             db.SaveChanges();
+        }
 
+        private static void InitializePosts(WorkshopContext db, int postsNumber)
+        {
+            db.Database.EnsureCreated();
+
+            //проверка, занесены ли данные в Posts
+            if (db.Posts.Any())
+            {
+                return; //бд иницилизирована
+            }
+
+            string postName;
+            string descriptionPost;
+
+            Random randomObj = new Random(1);
+
+            for (int postID = 1; postID <= postsNumber; postID++)
+            {
+                postName = MyRandom.RandomString(10);
+                descriptionPost = MyRandom.RandomString(15);
+
+                db.Posts.Add(new Post
+                {
+                    postName = postName,
+                    descriptionPost = descriptionPost
+                });
+            }
+
+            //сохранение изменений в бд, связанную с объектом контекста
+            db.SaveChanges();
+        }
+
+        private static void InitializeParts(WorkshopContext db, int partsNumber)
+        {
+            db.Database.EnsureCreated();
+
+            //проверка, занесены ли данные в Parts
+            if (db.Parts.Any())
+            {
+                return; //бд иницилизирована
+            }
+
+            string partName;
+            decimal price;
+            string descriptionPart;
+
+            Random randomObj = new Random(1);
+
+            for (int partID = 1; partID <= partsNumber; partID++)
+            {
+                partName = MyRandom.RandomString(15);
+                price = randomObj.Next(5, 100);
+                descriptionPart = MyRandom.RandomString(20);
+
+                db.Parts.Add(new Part
+                {
+                    partName = partName,
+                    price = price,
+                    descriptionPart = descriptionPart
+                });
+            }
+
+            //сохранение изменений в бд, связанную с объектом контекста
+            db.SaveChanges();
         }
 
         private static void InitializeWorkers(WorkshopContext db, int workersNumber, int postsNumber)
@@ -80,8 +148,7 @@ namespace WorshopBase.Data
             decimal salary;
 
             Random randomObj = new Random(1);
-
-            //заполнение таблицы
+            
             for(int workerID = 1; workerID <= workersNumber; workerID++)
             {
                 var date = new DateTime(randomObj.Next(1990, 2018),
@@ -111,108 +178,6 @@ namespace WorshopBase.Data
                     dateOfEmployment = dateOfEmployment,
                     salary = salary,
                 });
-
-                db.SaveChanges();
-            }
-        }
-
-        private static void InitializePosts(WorkshopContext db, int postsNumber)
-        {
-            db.Database.EnsureCreated();
-
-            //проверка, занесены ли данные в Workers
-            if (db.Posts.Any())
-            {
-                return; //бд иницилизирована
-            }
-
-            string postName;
-            string descriptionPost;
-
-            Random randomObj = new Random(1);
-
-            //заполенение таблицы
-            for(int postID = 1; postID <= postsNumber; postID++)
-            {
-                postName = MyRandom.RandomString(10);
-                descriptionPost = MyRandom.RandomString(15);
-
-                db.Posts.Add(new Post
-                {
-                    postName = postName,
-                    descriptionPost = descriptionPost
-                });
-            }
-
-            db.SaveChanges();
-        }
-
-        private static void InitializeOwners(WorkshopContext db, int ownersNumber)
-        {
-            db.Database.EnsureCreated();
-
-            //проверка, занесены ли данные в Owners
-            if(db.Owners.Any())
-            {
-                return; //бд иницилизирована
-            }
-
-            int driverLicense;
-            string fioOwner;
-            string adress;
-            int phone;
-
-            Random randomObj = new Random(1);
-
-            //заполнение таблицы
-            for(int ownerID = 1; ownerID <= ownersNumber; ownerID++)
-            {
-                driverLicense = randomObj.Next(1, 3000);
-                fioOwner = MyRandom.RandomString(15);
-                adress = MyRandom.RandomString(15);
-                phone = randomObj.Next(1, 1000000);
-
-                db.Owners.Add(new Owner
-                {
-                    driverLicense = driverLicense,
-                    fioOwner = fioOwner,
-                    adress = adress,
-                    phone = phone
-                });
-            }
-
-            //сохранение изменений в бд, связанную с объектом контекста
-            db.SaveChanges();
-        }
-
-        private static void InitializeParts(WorkshopContext db, int partsNumber)
-        {
-            db.Database.EnsureCreated();
-
-            //проверка, занесены ли данные в Owners
-            if (db.Parts.Any())
-            {
-                return; //бд иницилизирована
-            }
-
-            string partName;
-            decimal price;
-            string descriptionPart;
-
-            Random randomObj = new Random(1);
-
-            for(int partID = 1; partID <= partsNumber; partID++)
-            {
-                partName = MyRandom.RandomString(15);
-                price = randomObj.Next(5, 100);
-                descriptionPart = MyRandom.RandomString(20);
-
-                db.Parts.Add(new Part
-                {
-                    partName = partName,
-                    price = price,
-                    descriptionPart = descriptionPart
-                });
             }
 
             //сохранение изменений в бд, связанную с объектом контекста
@@ -223,7 +188,7 @@ namespace WorshopBase.Data
         {
             db.Database.EnsureCreated();
 
-            //проверка, занесены ли данные в Owners
+            //проверка, занесены ли данные в Cars
             if (db.Cars.Any())
             {
                 return; //бд иницилизирована
@@ -272,7 +237,7 @@ namespace WorshopBase.Data
         {
             db.Database.EnsureCreated();
 
-            //проверка, занесены ли данные в Owners
+            //проверка, занесены ли данные в Orders
             if (db.Orders.Any())
             {
                 return; //бд иницилизирована
@@ -311,6 +276,40 @@ namespace WorshopBase.Data
                     carID = carID,
                     dateReceipt = dateReceipt,
                     dateCompletion = dateCompletion,
+                    workerID = workerID
+                });
+            }
+
+            //сохранение изменений в бд, связанную с объектом контекста
+            db.SaveChanges();
+        }
+
+        private static void InitializeBreakdowns(WorkshopContext db, int breakdownsNumber, int ordersNumber, int partsNumber, int workersNumber)
+        {
+            db.Database.EnsureCreated();
+
+            //проверка, занесены ли данные в Breakdowns
+            if (db.Breakdowns.Any())
+            {
+                return; //бд иницилизирована
+            }
+
+            int orderID;
+            int partID;
+            int workerID;
+
+            Random randomObj = new Random(1);
+
+            for (int breakdownID = 1; breakdownID <= breakdownsNumber; breakdownID++)
+            {
+                orderID = db.Orders.Skip(randomObj.Next(0, db.Orders.Count() - 2)).First().orderID;
+                partID = db.Parts.Skip(randomObj.Next(0, db.Parts.Count() - 2)).First().partID;
+                workerID = db.Workers.Skip(randomObj.Next(0, db.Workers.Count() - 2)).First().workerID;
+
+                db.Breakdowns.Add(new Breakdown
+                {
+                    orderID = orderID,
+                    partID = partID,
                     workerID = workerID
                 });
             }

@@ -1,0 +1,81 @@
+﻿@model WorshopBase.Models.Owner
+
+@{
+    ViewData["Title"] = "Управление автомобилями водителя " + Model.fioOwner;
+}
+
+<h2>Управление автомобилями водителя @Model.fioOwner</h2>
+
+<table class="table table-hover table-bordered text-center" id="tblemps">
+    <thead>
+        <tr>
+            <th style="text-align: center;">
+                Государственный номер
+            </th>
+            <th style="text-align: center;">
+                Фамилия
+            </th>
+            <th style="text-align: center;">
+                Марка
+            </th>
+            <th style="text-align: center;">
+                Мощность
+            </th>
+            <th style="text-align: center;">
+                Цвет
+            </th>
+            <th style="text-align: center;">
+                Год выпуска
+            </th>
+            <th style="text-align: center;">
+                Номер кузова
+            </th>
+            <th style="text-align: center;">
+                Номер двигателя
+            </th>
+            <th style="text-align: center;">
+                <a class="btn btn-primary" asp-action="CreateCar">Добавить автомобиль</a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Cars)
+        {
+            <tr>
+                <td>
+                    @Html.HiddenFor(modelitem => item.carID)
+                    <span id="employeename">@item.stateNumber</span>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Owner.fioOwner)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.vis)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.colour)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.yearOfIssue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.bodyNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.engineNumber)
+                </td>
+                <td>
+                    <form asp-action="DeleteCar" asp-route-id="@item.carID" method="post">
+                        <a class="btn btn-sm btn-success glyphicon glyphicon-pencil" asp-action="EditCar" asp-route-id="@item.carID"></a>
+                        <button type="submit" class="btn btn-sm btn-danger glyphicon glyphicon-trash"></button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index" style="float: right;">Назад</a>

@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace WorshopBase.Models
 {
-    public class WorkshopContext : DbContext
+    public class WorkshopContext : IdentityDbContext<User>
     {
         public WorkshopContext(DbContextOptions<WorkshopContext> options) : base(options)
         {
+
         }
 
         public DbSet<Breakdown> Breakdowns { get; set; }

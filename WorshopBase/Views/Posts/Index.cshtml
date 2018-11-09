@@ -1,43 +1,44 @@
-﻿@model List<WorshopBase.ViewModels.PostViewModel>
+﻿@model IEnumerable<WorshopBase.Models.Post>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Управление должностями и сотрудниками";
 }
 
-<style type="text/css">
-    th {
-        background-color: grey;
-        color: white;
-        height: 50px;
-        text-align: center;
-    }
+<h2>Управление должностями и сотрудниками</h2>
 
-    table {
-        width: 100%;
-    }
-
-    td {
-        border: 1px solid black;
-        text-align: center;
-    }
-
-    caption {
-        text-align: center;
-        font-size: x-large;
-        color: black;
-    }
-</style>
-<table style="margin:20px;">
-    <caption>Должности</caption>
-    <tr>
-        <th>Должность</th>
-        <th>Описание</th>
-    </tr>
-    @foreach (var item in Model)
-    {
+<table class="table table-hover table-bordered text-center" id="tblemps" width="100px" >
+    <thead>
         <tr>
-            <td>@item.postName</td>
-            <td>@item.descriptionPost</td>
+            <th  style="text-align: center;">
+                Название должности
+            </th>
+            <th  style="text-align: center;">
+                Описание
+            </th>
+            <th  style="text-align: center;">
+                <a class="btn btn-primary" asp-action="Create">Добавить должность</a>
+            </th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.HiddenFor(modelitem=>item.postID)
+                    <span id="employeename">@item.postName</span>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.descriptionPost)
+                </td>
+                <td>
+                    <form asp-action="Delete" asp-route-id="@item.postID" method="post">
+                        <a class="btn btn-sm btn-warning" asp-action="Workers" asp-route-id="@item.postID">Сотрудники</a>
+                        <a class="btn btn-sm btn-success glyphicon glyphicon-pencil" asp-action="Edit" asp-route-id="@item.postID"></a>
+                        <button type="submit" class="btn btn-sm btn-danger glyphicon glyphicon-trash"></button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
 

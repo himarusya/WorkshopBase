@@ -8,6 +8,7 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <link href='~/lib/jquery-ui/themes/base/all.css' rel="stylesheet" type="text/css" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -26,7 +27,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Главная</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Авторемонтная мастерская</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>
     </nav>
@@ -34,7 +38,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2018 - "Авторемонтная мастерска"</p>
+            <p>&copy; @DateTime.Now.Year </p>
         </footer>
     </div>
 

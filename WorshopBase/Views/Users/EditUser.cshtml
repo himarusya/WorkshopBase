@@ -1,0 +1,20 @@
+﻿@model WorshopBase.ViewModels.UsersViewModels.EditUserViewModel
+
+<h2>Добавление нового пользователя</h2>
+
+<form method="post" asp-controller="Users" asp-action="EditUser">
+    <div asp-validation-summary="ModelOnly"></div>
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group row">
+        <div class="col-xs-4">
+            <label asp-for="Email"></label><br />
+            <input asp-for="Email" />
+            <span asp-validation-for="Email"></span>
+        </div>
+    </div>
+
+    <div>
+        <input type="submit" value="Сохранить" />
+    </div>
+</form>
+<a asp-action="Index">Назад</a>

@@ -26,6 +26,7 @@
         color: black;
     }
 </style>
+
 <table style="margin:20px;">
     <caption>Детали</caption>
     <tr>
@@ -35,11 +36,11 @@
     </tr>
     @foreach (var item in Model)
     {
-    <tr>
-        <td>@item.partName</td>
-        <td>@item.price</td>
-        <td>@item.descriptionPart</td>
-    </tr>
+        <tr>
+            <td>@item.partName</td>
+            <td>@item.price</td>
+            <td>@item.descriptionPart</td>
+        </tr>
     }
 </table>
 

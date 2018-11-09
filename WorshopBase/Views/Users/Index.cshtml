@@ -1,0 +1,50 @@
+﻿@model WorshopBase.ViewModels.UsersViewModels.UsersListViewModel
+
+<a asp-action="CreateUser">Добавить пользователя</a><br>
+<a asp-action="AdminsList">Список пользователей-администраторов</a>
+
+<table class="table">
+    <tr>
+        <th>Email</th>
+        <th></th>
+    </tr>
+    @foreach (var user in Model.Users)
+    {
+        <tr>
+            <td>@user.Email</td>
+            <td>
+                <form asp-action="Delete" asp-route-id="@user.Id" method="post">
+                    <a class="btn btn-sm btn-primary" asp-action="EditUser" asp-route-id="@user.Id">Изменить</a>
+                    <a class="btn btn-sm btn-primary" asp-action="ChangePassword" asp-route-id="@user.Id">Сменить пароль</a>
+                    <button type="submit" class="btn btn-sm btn-danger">
+                        Удалить
+                    </button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>
+
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+       class="btn btn-default btn">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </a>
+}
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+       class="btn btn-default btn">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}
+@if (Model.PageViewModel.TotalPages > 1)
+{
+    <br />
+    <b>Страница @Model.PageViewModel.PageNumber из @Model.PageViewModel.TotalPages</b>
+}
