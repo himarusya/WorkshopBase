@@ -9,3 +9,14 @@ D:\универ\5 семестр\Курсовая работа\WorshopBase\Worsh
 D:\универ\5 семестр\Курсовая работа\WorshopBase\WorshopBase\obj\Debug\netcoreapp2.0\WorshopBase.dll
 D:\универ\5 семестр\Курсовая работа\WorshopBase\WorshopBase\obj\Debug\netcoreapp2.0\WorshopBase.pdb
 D:\универ\5 семестр\Курсовая работа\WorshopBase\WorshopBase\obj\Debug\netcoreapp2.0\WorshopBase.csprojAssemblyReference.cache
+D:\GitHub\WorshopBase\WorshopBase\bin\Debug\netcoreapp2.0\WorshopBase.deps.json
+D:\GitHub\WorshopBase\WorshopBase\bin\Debug\netcoreapp2.0\WorshopBase.runtimeconfig.json
+D:\GitHub\WorshopBase\WorshopBase\bin\Debug\netcoreapp2.0\WorshopBase.runtimeconfig.dev.json
+D:\GitHub\WorshopBase\WorshopBase\bin\Debug\netcoreapp2.0\WorshopBase.dll
+D:\GitHub\WorshopBase\WorshopBase\bin\Debug\netcoreapp2.0\WorshopBase.pdb
+D:\GitHub\WorshopBase\WorshopBase\obj\Debug\netcoreapp2.0\WorshopBase.csprojAssemblyReference.cache
+D:\GitHub\WorshopBase\WorshopBase\obj\Debug\netcoreapp2.0\WorshopBase.csproj.CoreCompileInputs.cache
+D:\GitHub\WorshopBase\WorshopBase\obj\Debug\netcoreapp2.0\WorshopBase.AssemblyInfoInputs.cache
+D:\GitHub\WorshopBase\WorshopBase\obj\Debug\netcoreapp2.0\WorshopBase.AssemblyInfo.cs
+D:\GitHub\WorshopBase\WorshopBase\obj\Debug\netcoreapp2.0\WorshopBase.dll
+D:\GitHub\WorshopBase\WorshopBase\obj\Debug\netcoreapp2.0\WorshopBase.pdb

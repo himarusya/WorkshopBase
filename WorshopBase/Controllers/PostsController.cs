@@ -146,8 +146,15 @@ namespace WorshopBase.Controllers
 
         public IActionResult CreateWorker(int? postId)
         {
-            ViewBag.postID = postId;
-            return View();
+            try
+            {
+                ViewBag.postID = postId;
+                return View();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [HttpPost]

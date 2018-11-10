@@ -201,7 +201,8 @@ namespace WorshopBase.Controllers
                 {
                     ErrorViewModel error = new ErrorViewModel
                     {
-                        RequestId = "Ошибка! В базе данных отсутствует запись с переданным  id = " + id
+                        RequestId = "Ошибка! В базе данных отсутствует " +
+                        "запись группы с переданным id = " + id
                     };
                     return View("Error", error);
                 }
@@ -216,31 +217,38 @@ namespace WorshopBase.Controllers
         [HttpPost]
         public async Task<IActionResult> EditCar(EditCarViewModel model)
         {
-            Car car = await db.Cars.FirstOrDefaultAsync(t => t.carID == model.Id);
-            int er = 0;
-            if (ModelState.IsValid && (model.stateNumber == car.stateNumber || (er = db.Cars.Count(p => p.stateNumber == model.stateNumber)) == 0))
+            try
             {
-                if (car == null)
+                Car car = await db.Cars.FirstOrDefaultAsync(t => t.carID == model.Id);
+                int er = 0;
+                if (ModelState.IsValid && (model.stateNumber == car.stateNumber || (er = db.Cars.Count(p => p.stateNumber == model.stateNumber)) == 0))
                 {
-                    ErrorViewModel error = new ErrorViewModel
+                    if (car == null)
                     {
-                        RequestId = "Ошибка! Прислана пустая модель"
-                    };
-                    return View("Error", error);
+                        ErrorViewModel error = new ErrorViewModel
+                        {
+                            RequestId = "Ошибка! Прислана пустая модель"
+                        };
+                        return View("Error", error);
+                    }
+                    car.model = model.model;
+                    car.vis = model.vis;
+                    car.colour = model.colour;
+                    car.stateNumber = model.stateNumber;
+                    car.yearOfIssue = model.yearOfIssue;
+                    car.bodyNumber = car.bodyNumber;
+                    car.engineNumber = model.engineNumber;
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Cars", new { id = car.ownerID });
                 }
-                car.model = model.model;
-                car.vis = model.vis;
-                car.colour = model.colour;
-                car.stateNumber = model.stateNumber;
-                car.yearOfIssue = model.yearOfIssue;
-                car.bodyNumber = model.bodyNumber;
-                car.engineNumber = model.engineNumber;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Cars", new { id = car.ownerID });
+                if (er != 0)
+                    ModelState.AddModelError("stateNumber", "Группа с таким именем уже есть");
+                return View(model);
             }
-            if (er != 0)
-                ModelState.AddModelError("stateNumber", "Запись с таким именем уже есть");
-            return View(model);
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [HttpPost]

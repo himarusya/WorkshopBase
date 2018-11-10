@@ -13359,11 +13359,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\универ\\5 семестр\\Курсовая работа\\WorshopBase\\WorshopBase\\WorshopBase.csproj",
+      "projectUniqueName": "D:\\GitHub\\WorshopBase\\WorshopBase\\WorshopBase.csproj",
       "projectName": "WorshopBase",
-      "projectPath": "D:\\универ\\5 семестр\\Курсовая работа\\WorshopBase\\WorshopBase\\WorshopBase.csproj",
+      "projectPath": "D:\\GitHub\\WorshopBase\\WorshopBase\\WorshopBase.csproj",
       "packagesPath": "C:\\Users\\kulak\\.nuget\\packages\\",
-      "outputPath": "D:\\универ\\5 семестр\\Курсовая работа\\WorshopBase\\WorshopBase\\obj\\",
+      "outputPath": "D:\\GitHub\\WorshopBase\\WorshopBase\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

@@ -5,7 +5,7 @@
 
 <h2>Редактирование автомобиля с номером @Model.stateNumber водителя @Model.fioOwner</h2>
 
-<form asp-action="EditCar">
+@*<form asp-action="EditCar">
 
     <div asp-validation-summary="All" class="text-danger"></div>
     <input asp-for="Id" type="hidden" />
@@ -56,6 +56,67 @@
         <div class="col-xs-4">
             <label asp-for="engineNumber" class="control-label">Номер двигателя</label>
             <input asp-for="engineNumber" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-xs-4">
+            <input type="submit" value="Изменить" class="btn btn-default" />
+        </div>
+    </div>
+
+</form>*@
+
+<form asp-action="EditCar">
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input name="Id" value="@Model.Id" type="hidden" />
+    <div class="form-group row">
+        <div class="col-xs-4">
+            <label for="model" class="control-label">Модель</label>
+            <input type="text" value="@Model.model" name="model" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-xs-4">
+            <label for="vis" class="control-label">Мощность</label>
+            <input name="vis" value="@Model.vis" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-xs-4">
+            <label for="colour" class="control-label">Цвет</label>
+            <input name="colour" value="@Model.colour" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-xs-4">
+            <label for="stateNumber" class="control-label">Номер государственных прав</label>
+            <input name="stateNumber" value="@Model.stateNumber" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-xs-4">
+            <label for="yearOfIssue" class="control-label">Год выпуска</label>
+            <input name="yearOfIssue" value="@Model.yearOfIssue" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-xs-4">
+            <label for="bodyNumber" class="control-label">Номер кузова</label>
+            <input name="bodyNumber" value="@Model.bodyNumber" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-xs-4">
+            <label for="engineNumber" class="control-label">Номер двигателя</label>
+            <input name="engineNumber" value="@Model.engineNumber" class="form-control" />
         </div>
     </div>
 
