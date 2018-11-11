@@ -34,7 +34,7 @@
                 Номер двигателя
             </th>
             <th style="text-align: center;">
-                <a class="btn btn-primary" asp-action="CreateCar">Добавить автомобиль</a>
+                <a class="btn btn-primary" asp-route-postID="@Model.ownerID" asp-action="CreateCar">Добавить автомобиль</a>
             </th>
         </tr>
     </thead>

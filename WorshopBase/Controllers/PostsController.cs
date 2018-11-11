@@ -144,11 +144,11 @@ namespace WorshopBase.Controllers
             return View();
         }
 
-        public IActionResult CreateWorker(int? postId)
+        public IActionResult CreateWorker(int? id)
         {
             try
             {
-                ViewBag.postID = postId;
+                ViewBag.postID = id;
                 return View();
             }
             catch(Exception ex)

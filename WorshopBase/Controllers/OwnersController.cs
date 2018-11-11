@@ -150,29 +150,50 @@ namespace WorshopBase.Controllers
             return View();
         }
 
+        public IActionResult CreateCar(int? id)
+        {
+            try
+            {
+                ViewBag.ownerID = id;
+                return View();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateCar(CreateCarViewModel model)
         {
             int er = 0;
             if (ModelState.IsValid && (er = db.Cars.Count(p => p.stateNumber == model.stateNumber)) == 0)
             {
-                Car car = new Car
+                try
                 {
-                    ownerID = model.ownerID,
-                    model = model.model,
-                    vis = model.vis,
-                    colour = model.colour,
-                    stateNumber = model.stateNumber,
-                    yearOfIssue = model.yearOfIssue,
-                    bodyNumber = model.bodyNumber,
-                    engineNumber = model.engineNumber
-                };
-                await db.Cars.AddAsync(car);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Cars", new { id = model.ownerID });
+                    Car car = new Car
+                    {
+                        ownerID = model.ownerID,
+                        model = model.model,
+                        vis = model.vis,
+                        colour = model.colour,
+                        stateNumber = model.stateNumber,
+                        yearOfIssue = model.yearOfIssue,
+                        bodyNumber = model.bodyNumber,
+                        engineNumber = model.engineNumber
+                    };
+                    await db.Cars.AddAsync(car);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Workers", new { id = model.ownerID });
+                }
+                catch (Exception ex)
+                {
+
+                }
             }
             if (er != 0)
-                ModelState.AddModelError("stateNumber", "Запись с таким именем уже есть");
+                ModelState.AddModelError("fioWorker", "Запись с таким именем уже есть");
+            ViewBag.ownerID = model.ownerID;
             return View(model);
         }
 

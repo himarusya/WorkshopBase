@@ -1,26 +1,19 @@
 ﻿@model WorshopBase.ViewModels.CarsViewModels.CreateCarViewModel
 @{
-    ViewData["Title"] = "Добавить новый автомобиль владельца " + ViewBag.fioOwner;
+    ViewData["Title"] = "Добавить автомобиль ";
 }
 
-<h2>Добавить новый автомобиль владельца @ViewBag.fioOwner</h2>
+<h2>Добавить автомобиль </h2>
 
 <form asp-action="CreateCar">
 
     <div asp-validation-summary="All" class="text-danger"></div>
-    <input asp-for="ownerID" type="hidden" value="@ViewBag.postID" />
-
-    <div class="form-group row">
-        <div class="col-xs-4">
-            <label asp-for="stateNumber" class="control-label">Номер государственный прав</label>
-            <input type="text" asp-for="stateNumber" class="form-control" />
-        </div>
-    </div>
+    <input asp-for="ownerID" type="hidden" value="@ViewBag.ownerID" />
 
     <div class="form-group row">
         <div class="col-xs-4">
             <label asp-for="model" class="control-label">Марка</label>
-            <input asp-for="model" class="form-control" />
+            <input type="text" asp-for="model" class="form-control" />
         </div>
     </div>
 
@@ -34,7 +27,14 @@
     <div class="form-group row">
         <div class="col-xs-4">
             <label asp-for="colour" class="control-label">Цвет</label>
-            <input asp-for="colour" class="form-control" />
+            <input type="text" asp-for="colour" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-xs-4">
+            <label asp-for="stateNumber" class="control-label">Номер государственных прав</label>
+            <input type="text" asp-for="stateNumber" class="form-control" />
         </div>
     </div>
 
