@@ -1,14 +1,14 @@
-﻿@model WorshopBase.ViewModels.CarsViewModels.EditCarViewModel
+﻿@model WorshopBase.Models.Car
 @{
-    ViewData["Title"] = "Редактирование автомобиля " + Model.stateNumber + " с должность " + Model.fioOwner;
+    ViewData["Title"] = "Изменение автомобиля ";
 }
 
-<h2>Редактирование автомобиля @Model.stateNumber с должностьа @Model.fioOwner</h2>
+<h2>Изменение автомобиля </h2>
 
 <form asp-action="EditCar">
 
     <div asp-validation-summary="All" class="text-danger"></div>
-    <input asp-for="Id" type="hidden" />
+    <input asp-for="carID" type="hidden" />
 
     <div class="form-group row">
         <div class="col-xs-4">

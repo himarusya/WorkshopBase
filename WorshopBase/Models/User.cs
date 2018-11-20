@@ -8,6 +8,5 @@ namespace WorshopBase.Models
 {
     public class User : IdentityUser
     {
-        //public int? UserId { get; set; }
     }
 }

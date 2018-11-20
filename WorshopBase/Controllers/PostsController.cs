@@ -22,9 +22,30 @@ namespace WorshopBase.Controllers
             db = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int page = 1)
         {
-            return View(db.Posts.ToList());
+            int pageSize = 5;
+            List<PostViewModel> list = new List<PostViewModel>();
+            var posts = db.Posts;
+            foreach (var post in posts)
+            {
+                list.Add(new PostViewModel
+                {
+                    Id = post.postID,
+                    postName = post.postName,
+                    descriptionPost = post.descriptionPost
+                });
+            }
+            IQueryable<PostViewModel> filterList = list.AsQueryable();
+            var count = filterList.Count();
+            var items = filterList.Skip((page - 1) * pageSize).
+                Take(pageSize).ToList();
+            PostsListViewModel model = new PostsListViewModel
+            {
+                PageViewModel = new PageViewModel(count, page, pageSize),
+                Posts = items
+            };
+            return View(model);
         }
 
         public IActionResult Create()
@@ -144,11 +165,11 @@ namespace WorshopBase.Controllers
             return View();
         }
 
-        public IActionResult CreateWorker(int? id)
+        public IActionResult CreateWorker(int? postID)
         {
             try
             {
-                ViewBag.postID = id;
+                ViewBag.postID = postID;
                 return View();
             }
             catch(Exception ex)

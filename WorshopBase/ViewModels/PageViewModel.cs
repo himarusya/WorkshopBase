@@ -8,8 +8,13 @@ namespace WorshopBase.ViewModels
 {
     public class PageViewModel
     {
-        public int PageNumber { get; private set; }
+        public int? PageNumber { get; set; } = null;
         public int TotalPages { get; private set; }
+
+        public PageViewModel()
+        {
+
+        }
 
         public PageViewModel(int count, int pageNumber, int pageSize)
         {

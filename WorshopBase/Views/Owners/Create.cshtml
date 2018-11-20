@@ -1,9 +1,12 @@
-﻿@model WorshopBase.ViewModels.OwnersViewModels.CreateOwnerViewModel
+﻿@using Microsoft.AspNetCore.Identity
+@using WorshopBase.Models
+
+@model WorshopBase.ViewModels.OwnersViewModels.CreateOwnerViewModel
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
 @{
-
     ViewBag.Title = "Добавление владельца";
-
 }
 
 <h2>Добавление владельца</h2>
@@ -24,13 +27,11 @@
             <input type="text" asp-for="phone" class="form-control" />
         </div>
     </div>
-
     <div class="form-group row">
         <div class="col-xs-4">
             <input type="submit" value="Добавить" class="btn btn-default" />
         </div>
     </div>
-
 </form>
 
 <a asp-action="Index" style="float: right;">Назад</a>

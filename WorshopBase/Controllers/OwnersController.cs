@@ -24,15 +24,40 @@ namespace WorshopBase.Controllers
 
         public IActionResult Index(int page = 1)
         {
-            return View(db.Owners.ToList());
+            int pageSize = 5;
+            List<OwnerViewModel> list = new List<OwnerViewModel>();
+            var owners = db.Owners;
+            foreach (var owner in owners)
+            {
+                list.Add(new OwnerViewModel
+                {
+                    Id = owner.ownerID,
+                    driverLicense = owner.driverLicense,
+                    fioOwner = owner.fioOwner,
+                    adress = owner.adress,
+                    phone = owner.phone
+                });
+            }
+            IQueryable<OwnerViewModel> filterList = list.AsQueryable();
+            var count = filterList.Count();
+            var items = filterList.Skip((page - 1) * pageSize).
+                Take(pageSize).ToList();
+            OwnersListViewModel model = new OwnersListViewModel
+            {
+                PageViewModel = new PageViewModel(count, page, pageSize),
+                Owners = items
+            };
+            return View(model);
         }
 
+        [Authorize(Roles ="admin")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Create(CreateOwnerViewModel model)
         {
             int er = 0;
@@ -54,6 +79,7 @@ namespace WorshopBase.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id != null)
@@ -85,6 +111,7 @@ namespace WorshopBase.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(EditOwnerViewModel model)
         {
             int er = 0;
@@ -112,6 +139,7 @@ namespace WorshopBase.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int id)
         {
             Owner owner = await db.Owners.FirstOrDefaultAsync(t => t.ownerID == id);
@@ -150,11 +178,12 @@ namespace WorshopBase.Controllers
             return View();
         }
 
-        public IActionResult CreateCar(int? id)
+        [Authorize(Roles = "admin")]
+        public IActionResult CreateCar(int? ownerID)
         {
             try
             {
-                ViewBag.ownerID = id;
+                ViewBag.ownerID = ownerID;
                 return View();
             }
             catch (Exception ex)
@@ -164,39 +193,35 @@ namespace WorshopBase.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> CreateCar(CreateCarViewModel model)
         {
-            int er = 0;
-            if (ModelState.IsValid && (er = db.Cars.Count(p => p.stateNumber == model.stateNumber)) == 0)
+            try
             {
-                try
+                Car car = new Car
                 {
-                    Car car = new Car
-                    {
-                        ownerID = model.ownerID,
-                        model = model.model,
-                        vis = model.vis,
-                        colour = model.colour,
-                        stateNumber = model.stateNumber,
-                        yearOfIssue = model.yearOfIssue,
-                        bodyNumber = model.bodyNumber,
-                        engineNumber = model.engineNumber
-                    };
-                    await db.Cars.AddAsync(car);
-                    await db.SaveChangesAsync();
-                    return RedirectToAction("Workers", new { id = model.ownerID });
-                }
-                catch (Exception ex)
-                {
-
-                }
+                    ownerID = Convert.ToInt32(Request.Form.FirstOrDefault(p => p.Key == "ownerID").Value),
+                    model = Request.Form.FirstOrDefault(p => p.Key == "model").Value,
+                    vis = Convert.ToInt32(Request.Form.FirstOrDefault(p => p.Key == "vis").Value),
+                    colour = Request.Form.FirstOrDefault(p => p.Key == "colour").Value,
+                    stateNumber = Request.Form.FirstOrDefault(p => p.Key == "stateNumber").Value,
+                    yearOfIssue = Convert.ToInt32(Request.Form.FirstOrDefault(p => p.Key == "yearOfIssue").Value),
+                    bodyNumber = Convert.ToInt32(Request.Form.FirstOrDefault(p => p.Key == "bodyNumber").Value),
+                    engineNumber = Convert.ToInt32(Request.Form.FirstOrDefault(p => p.Key == "engineNumber").Value)
+            };
+                await db.Cars.AddAsync(car);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Cars", new { id = car.ownerID });
             }
-            if (er != 0)
-                ModelState.AddModelError("fioWorker", "Запись с таким именем уже есть");
+            catch (Exception ex)
+            {
+
+            }
             ViewBag.ownerID = model.ownerID;
             return View(model);
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> EditCar(int? id)
         {
             if (id != null)
@@ -216,7 +241,7 @@ namespace WorshopBase.Controllers
                         bodyNumber = car.bodyNumber,
                         engineNumber = car.engineNumber
                     };
-                    return View(model);
+                    return View(car);
                 }
                 else
                 {
@@ -236,35 +261,29 @@ namespace WorshopBase.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditCar(EditCarViewModel model)
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> EditCar(Car model)
         {
             try
             {
-                Car car = await db.Cars.FirstOrDefaultAsync(t => t.carID == model.Id);
-                int er = 0;
-                if (ModelState.IsValid && (model.stateNumber == car.stateNumber || (er = db.Cars.Count(p => p.stateNumber == model.stateNumber)) == 0))
+                Car car = await db.Cars.FirstOrDefaultAsync(t => t.carID == Convert.ToInt32(Request.Form.FirstOrDefault(p => p.Key == "carID").Value));
+                if (car == null)
                 {
-                    if (car == null)
+                    ErrorViewModel error = new ErrorViewModel
                     {
-                        ErrorViewModel error = new ErrorViewModel
-                        {
-                            RequestId = "Ошибка! Прислана пустая модель"
-                        };
-                        return View("Error", error);
-                    }
-                    car.model = model.model;
-                    car.vis = model.vis;
-                    car.colour = model.colour;
-                    car.stateNumber = model.stateNumber;
-                    car.yearOfIssue = model.yearOfIssue;
-                    car.bodyNumber = car.bodyNumber;
-                    car.engineNumber = model.engineNumber;
-                    await db.SaveChangesAsync();
-                    return RedirectToAction("Cars", new { id = car.ownerID });
+                        RequestId = "Ошибка! Прислана пустая модель"
+                    };
+                    return View("Error", error);
                 }
-                if (er != 0)
-                    ModelState.AddModelError("stateNumber", "Группа с таким именем уже есть");
-                return View(model);
+                car.model = Request.Form.FirstOrDefault(p => p.Key == "model").Value;
+                car.vis = Convert.ToInt32(Request.Form.FirstOrDefault(p => p.Key == "vis").Value);
+                car.colour = Request.Form.FirstOrDefault(p => p.Key == "colour").Value;
+                car.stateNumber = Request.Form.FirstOrDefault(p => p.Key == "stateNumber").Value;
+                car.yearOfIssue = Convert.ToInt32(Request.Form.FirstOrDefault(p => p.Key == "yearOfIssue").Value);
+                car.bodyNumber = Convert.ToInt32(Request.Form.FirstOrDefault(p => p.Key == "bodyNumber").Value);
+                car.engineNumber = Convert.ToInt32(Request.Form.FirstOrDefault(p => p.Key == "engineNumber").Value);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Cars", new { id = car.ownerID });
             }
             catch(Exception ex)
             {
@@ -273,6 +292,7 @@ namespace WorshopBase.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteCar(int? id)
         {
             Car car = await db.Cars.FirstOrDefaultAsync(t => t.carID == id);

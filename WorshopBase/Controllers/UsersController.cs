@@ -25,12 +25,11 @@ namespace WorshopBase.Controllers
 
         public async Task<IActionResult> Index(int page = 1)
         {
-            int pageSize = 10;
+            int pageSize = 5;
             List<UserViewModel> us = new List<UserViewModel>();
             var users = await _userManager.GetUsersInRoleAsync("user");
             foreach (var user in users)
             {
-               
                 us.Add(new UserViewModel
                 {
                     Id = user.Id,
@@ -130,7 +129,7 @@ namespace WorshopBase.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditStudent(EditUserViewModel model)
+        public async Task<IActionResult> EditUser(EditUserViewModel model)
         {
             if (ModelState.IsValid)
             {

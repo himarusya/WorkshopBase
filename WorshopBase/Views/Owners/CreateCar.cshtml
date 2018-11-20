@@ -1,15 +1,14 @@
 ﻿@model WorshopBase.ViewModels.CarsViewModels.CreateCarViewModel
 @{
-    ViewData["Title"] = "Добавить автомобиль ";
+    ViewData["Title"] = "Добавление автомобиля ";
 }
 
-<h2>Добавить автомобиль </h2>
+<h2>Добавление автомобиля </h2>
 
-<form asp-action="CreateCar">
+<form asp-action="CreateCar" method="post">
 
     <div asp-validation-summary="All" class="text-danger"></div>
     <input asp-for="ownerID" type="hidden" value="@ViewBag.ownerID" />
-
     <div class="form-group row">
         <div class="col-xs-4">
             <label asp-for="model" class="control-label">Марка</label>
@@ -20,7 +19,7 @@
     <div class="form-group row">
         <div class="col-xs-4">
             <label asp-for="vis" class="control-label">Мощность</label>
-            <input asp-for="vis" class="form-control" />
+            <input type="text" asp-for="vis" class="form-control" />
         </div>
     </div>
 
@@ -33,7 +32,7 @@
 
     <div class="form-group row">
         <div class="col-xs-4">
-            <label asp-for="stateNumber" class="control-label">Номер государственных прав</label>
+            <label asp-for="stateNumber" class="control-label">Номер гос. прав</label>
             <input type="text" asp-for="stateNumber" class="form-control" />
         </div>
     </div>
@@ -41,21 +40,21 @@
     <div class="form-group row">
         <div class="col-xs-4">
             <label asp-for="yearOfIssue" class="control-label">Год выпуска</label>
-            <input asp-for="yearOfIssue" class="form-control" />
+            <input type="text" asp-for="yearOfIssue" class="form-control" />
         </div>
     </div>
 
     <div class="form-group row">
         <div class="col-xs-4">
             <label asp-for="bodyNumber" class="control-label">Номер кузова</label>
-            <input asp-for="bodyNumber" class="form-control" />
+            <input type="text" asp-for="bodyNumber" class="form-control" />
         </div>
     </div>
 
     <div class="form-group row">
         <div class="col-xs-4">
             <label asp-for="engineNumber" class="control-label">Номер двигателя</label>
-            <input asp-for="engineNumber" class="form-control" />
+            <input type="text" asp-for="engineNumber" class="form-control" />
         </div>
     </div>
 
@@ -66,4 +65,3 @@
     </div>
 
 </form>
-

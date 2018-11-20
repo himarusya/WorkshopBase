@@ -1,44 +1,71 @@
-﻿@model List<WorshopBase.ViewModels.BreakdownViewModel>
-    @{
-        ViewData["Title"] = "Index";
-    }
+﻿@model WorshopBase.ViewModels.BreakdownsViewModel.BreakdownsListViewModel
+@{
+    ViewData["Title"] = "Управление поломками";
+}
 
-<style type="text/css">
-    th {
-        background-color: grey;
-        color: white;
-        height: 50px;
-        text-align: center;
-    }
+<h2>Управление поломками</h2>
 
-    table {
-        width: 100%;
-    }
-
-    td {
-        border: 1px solid black;
-        text-align: center;
-    }
-
-    caption {
-        text-align: center;
-        font-size: x-large;
-        color: black;
-    }
-</style>
-
-<table style="margin:20px;">
-    <caption>Поломки</caption>
-    <tr>
-        <th>Деталь</th>
-        <th>Работник</th>
-    </tr>
-    @foreach (var item in Model)
-    {
+<table class="table table-hover table-bordered text-center" id="tblemps">
+    <thead>
         <tr>
-            <td>@item.partName</td>
-            <td>@item.fioOwner</td>
+            <th style="text-align: center;">
+                Деталь
+            </th>
+            <th style="text-align: center;">
+                Автомобиль
+            </th>
+            <th style="text-align: center;">
+                Сотрудник
+            </th>
+            <th style="text-align: center;">
+                <a class="btn btn-primary" asp-action="Create">Добавить поломку</a>
+            </th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Breakdowns)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.partName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.stateNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fioWorker)
+                </td>
+                <td>
+                    <form asp-action="Delete" asp-route-id="@item.Id" method="post">
+                        <a class="btn btn-sm btn-success glyphicon glyphicon-pencil" asp-action="Edit" asp-route-id="@item.Id"></a>
+                        <button type="submit" class="btn btn-sm btn-danger glyphicon glyphicon-trash"></button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
 
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+       class="btn btn-default btn">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </a>
+}
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+       class="btn btn-default btn">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}
+@if (Model.PageViewModel.TotalPages > 1)
+{
+    <br />
+    <b>Страница @Model.PageViewModel.PageNumber из @Model.PageViewModel.TotalPages</b>
+}

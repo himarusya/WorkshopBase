@@ -1,0 +1,62 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using WorshopBase.Models
+
+@model IEnumerable<WorshopBase.ViewModels.BreakdownsViewModel.BreakdownViewModel>
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+@{
+    ViewData["Title"] = "Управление поломками автомобиля ";
+}
+
+<h2>Управление поломками автомобиля </h2>
+
+<table class="table table-hover table-bordered text-center" id="tblemps">
+    <thead>
+        <tr>
+            <th style="text-align: center;">
+                Деталь
+            </th>
+            <th style="text-align: center;">
+                Цена
+            </th>
+            <th style="text-align: center;">
+                Сотрудник
+            </th>
+            @if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "admin"))
+            {
+                <th style="text-align: center;">
+                    <a class="btn btn-primary" asp-route-orderID="@ViewBag.orderID" asp-action="CreateBreakdown">Добавить поломку</a>
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.HiddenFor(modelitem => item.Id)
+                @Html.DisplayFor(modelItem => item.partName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fioWorker)
+            </td>
+            @if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "admin"))
+            {
+                <td>
+                    <form asp-action="DeleteBreakdown" asp-route-id="@item.Id" method="post">
+                        <a class="btn btn-sm btn-success glyphicon glyphicon-pencil" asp-action="EditBreakdown" asp-route-id="@item.Id"></a>
+                        <button type="submit" class="btn btn-sm btn-danger glyphicon glyphicon-trash"></button>
+                    </form>
+                </td>
+            }
+        </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index" style="float: right;">Назад</a>

@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using WorshopBase.Models;
 using WorshopBase.Data;
 using WorshopBase.Middleware;
+using WorshopBase.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WorshopBase
 {
@@ -34,7 +36,26 @@ namespace WorshopBase
             .AddEntityFrameworkStores<WorkshopContext>()
             .AddDefaultTokenProviders();
 
-            services.AddMvc();
+            services.AddTransient<WorkshopService>();
+
+            services.AddMvc(options =>
+            {
+                // определение профилей кэширования
+                options.CacheProfiles.Add("Caching",
+                    new CacheProfile()
+                    {
+                        Duration = 30
+                    });
+                options.CacheProfiles.Add("NoCaching",
+                    new CacheProfile()
+                    {
+                        Location = ResponseCacheLocation.None,
+                        NoStore = true
+                    });
+            });
+            services.AddMemoryCache();
+            services.AddDistributedMemoryCache();
+            services.AddSession();
         }
 
         public void Configure(IApplicationBuilder app, WorkshopContext context)
@@ -42,6 +63,8 @@ namespace WorshopBase
             app.UseStaticFiles();
 
             app.UseAuthentication();
+            app.UseSession();
+            app.UseWorkshopCache("Workshop");
 
             app.UseMvc(routes =>
             {

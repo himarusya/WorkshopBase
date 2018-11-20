@@ -1,47 +1,140 @@
-﻿@model List<WorshopBase.ViewModels.OrderViewModel>
+﻿@using Microsoft.AspNetCore.Identity
+@using WorshopBase.Models
+
+@model WorshopBase.ViewModels.OrdersViewModels.OrdersListViewModel
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Управление заказами";
 }
 
-<style type="text/css">
-    th {
-        background-color: grey;
-        color: white;
-        height: 50px;
-        text-align: center;
-    }
-    table {
-        width: 100%;
-    }
-    td {
-        border: 1px solid black;
-        text-align: center;
-    }
-    caption {
-        text-align: center;
-        font-size: x-large;
-        color: black;
-    }
-</style>
-<table style="margin:20px;">
-    <caption>Заказы</caption>
-    <tr>
-        <th>Госномер</th>
-        <th>Марка</th>
-        <th>Владелец</th>
-        <th>Дата поступления</th>
-        <th>Дата выполнения</th>
-        <th>Работник</th>
-    </tr>
-    @foreach (var item in Model)
-    {
+<h2>Управление заказами</h2>
+
+<form method="post">
+    <div class="form-inline">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <label class="control-label">Номер гос. прав: </label>
+        @Html.TextBox("Car", Model.OrderFilterViewModel.Car,
+                htmlAttributes: new { @class = "form-control", @id = "Car" })
+
+        <label class="control-label">от: </label>
+        @Html.TextBox("_date1", Model.OrderFilterViewModel._date1, DateTime.Now.ToString("dd.MM.yyyy"),
+                htmlAttributes: new { @class = "form-control", @id = "_date1", style = "width:100px" })
+
+        <label class="control-label">до: </label>
+        @Html.TextBox("_date2", Model.OrderFilterViewModel._date2, DateTime.Now.ToString("dd.MM.yyyy"),
+                htmlAttributes: new { @class = "form-control", @id = "_date2", style = "width:100px" })
+
+        @Html.DropDownList("_selectedType", new SelectList((new List<string>() { "Все", "Отремонтированные", "Поступившие" })),
+                htmlAttributes: new { @class = "form-control", @id = "_selectedType" })
+
+        <label class="control-label">Сотрудник: </label>
+        @Html.DropDownList("SelectedWorker", Model.OrderFilterViewModel.Workers as SelectList,
+                htmlAttributes: new { @class = "form-control", @id = "SelectedWorker" })
+        <input type="submit" value="Поиск" class="btn btn-default" style='width:100px' />
+    </div>
+</form>
+<br />
+
+<table class="table table-hover table-bordered text-center" id="tblemps">
+    <thead>
         <tr>
-            <td>@item.stateNumber</td>
-            <td>@item.model</td>
-            <td>@item.fioOwner</td>
-            <td>@item.dateReceipt</td>
-            <td>@item.dateCompletion</td>
-            <td>@item.fioWorker</td>
+            <th style="text-align: center;">
+                Номер гос. прав
+            </th>
+            <th style="text-align: center;">
+                Водитель
+            </th>
+            <th style="text-align: center;">
+                Дата поступления
+            </th>
+            <th style="text-align: center;">
+                Дата выполнения
+            </th>
+            <th style="text-align: center;">
+                Цена
+            </th>
+            <th style="text-align: center;">
+                Сотрудник
+            </th>
+            @if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "admin"))
+            {
+                <th style="text-align: center;">
+                    <a class="btn btn-primary" asp-action="Create">Добавить заказ</a>
+                </th>
+            }
+            @if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "user"))
+            {
+                <th style="text-align: center;">
+                    Поломки
+                </th>
+            }
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Orders)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.stateNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fioOwner)
+                </td>
+                <td>
+                    @item.dateReceipt.ToString("dd.MM.yyyy")
+                </td>
+                <td>
+                    @item.dateCompletion?.ToString("dd.MM.yyyy")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fioWorker)
+                </td>
+                @if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "admin"))
+                {
+                    <td>
+                        <form asp-action="Delete" asp-route-id="@item.Id" method="post">
+                            <a class="btn btn-sm btn-warning" asp-action="Breakdowns" asp-route-id="@item.Id">Поломки</a>
+                            <a class="btn btn-sm btn-success glyphicon glyphicon-pencil" asp-action="Edit" asp-route-id="@item.Id"></a>
+                            <button type="submit" class="btn btn-sm btn-danger glyphicon glyphicon-trash"></button>
+                        </form>
+                    </td>
+                }
+                @if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "user"))
+                {
+                    <td>
+                        <a class="btn btn-sm btn-warning" asp-action="Breakdowns" asp-route-id="@item.Id">Поломки</a>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
 </table>
+
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+       class="btn btn-default btn">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </a>
+}
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+       class="btn btn-default btn">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}
+@if (Model.PageViewModel.TotalPages > 1)
+{
+    <br />
+    <b>Страница @Model.PageViewModel.PageNumber из @Model.PageViewModel.TotalPages</b>
+}

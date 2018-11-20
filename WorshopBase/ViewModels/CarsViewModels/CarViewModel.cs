@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WorshopBase.Models;
 
-namespace WorshopBase.ViewModels
+namespace WorshopBase.ViewModels.CarsViewModels
 {
     public class CarViewModel
     {

@@ -1,25 +1,38 @@
 ﻿@model IEnumerable<WorshopBase.Models.User>
+
 @{
-    ViewBag.Title = "Список пользователей-администраторов";
+    ViewBag.Title = "Список администраторами";
 }
 
-<a asp-action="CreateAdmin">Добавить пользователя-администратора</a><br />
-<a asp-action="Index">Назад</a>
+<h2>Управление администраторами</h2>
 
-<table class="table">
-    <tr><th>Email</th><th></th></tr>
-    @foreach (var user in Model)
-    {
+<table class="table table-hover table-bordered text-center" id="tblemps">
+    <thead>
         <tr>
-            <td>@user.Email</td>
-            <td>
-                <form asp-action="Delete" asp-route-id="@user.Id" method="post">
-                    <a class="btn btn-sm btn-primary" asp-action="ChangePassword" asp-route-id="@user.Id">Сменить пароль</a>
-                    <button type="submit" class="btn btn-sm btn-danger">
-                        Удалить
-                    </button>
-                </form>
-            </td>
+            <th style="text-align: center;">
+                Email
+            </th>
+            <th style="text-align: center;">
+                <a class="btn btn-primary" asp-action="CreateAdmin">Добавить администратора</a><br />
+
+            </th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td style="text-align: center;">
+                    @user.Email
+                </td>
+                <td>
+                    <form asp-action="Delete" asp-route-id="@user.Id" method="post">
+                        <a class="btn btn-sm btn-default" asp-action="ChangePassword" asp-route-id="@user.Id">Сменить пароль</a>
+                        <button type="submit" class="btn btn-sm btn-danger glyphicon glyphicon-trash"></button>
+                    </form>
+                </td>
+            </tr>
+        }
 </table>
+
+<a asp-action="Index" style="float: right;">Назад</a>

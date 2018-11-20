@@ -1,26 +1,36 @@
 ﻿@model WorshopBase.ViewModels.UsersViewModels.CreateUserViewModel
 
+@{
+    ViewBag.Title = "Добавление нового пользователя";
+}
+
 <h2>Добавление нового пользователя</h2>
 
 <form method="post" asp-controller="Users" asp-action="CreateUser">
     <div asp-validation-summary="ModelOnly"></div>
-    <div>
-        <label asp-for="Email"></label><br />
-        <input asp-for="Email" />
-        <span asp-validation-for="Email"></span>
+
+    <div class="form-group row">
+        <div class="col-xs-4">
+            <label asp-for="Email"></label><br />
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email"></span>
+
+            <label asp-for="Password"></label><br />
+            <input asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password"></span>
+
+            <label asp-for="PasswordConfirm"></label><br />
+            <input asp-for="PasswordConfirm" class="form-control" />
+            <span asp-validation-for="PasswordConfirm"></span>
+        </div>
     </div>
-    <div>
-        <label asp-for="Password"></label><br />
-        <input asp-for="Password" />
-        <span asp-validation-for="Password"></span>
+
+    <div class="form-group row">
+        <div class="col-xs-4">
+            <input type="submit" value="Добавить" class="btn btn-default" />
+        </div>
     </div>
-    <div>
-        <label asp-for="PasswordConfirm"></label><br />
-        <input asp-for="PasswordConfirm" />
-        <span asp-validation-for="PasswordConfirm"></span>
-    </div>
-    <div>
-        <input type="submit" value="Добавить" />
-    </div>
+
 </form>
-<a asp-action="Index">Назад</a>
+
+<a asp-action="Index" style="float: right;">Назад</a>

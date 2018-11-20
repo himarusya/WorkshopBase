@@ -1,0 +1,48 @@
+﻿@model WorshopBase.Models.Breakdown
+@{
+    ViewData["Title"] = "Добавление поломки ";
+}
+
+<h2>Добавление поломки </h2>
+
+<form asp-action="CreateBreakdown">
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input asp-for="orderID" type="hidden" value="@ViewBag.orderID" />
+
+    <div class="form-group row">
+        <div class="col-xs-4">
+            <label asp-for="partID" class="control-label">Деталь</label>
+            <div id="g">
+                <select asp-for="partID" class="form-control">
+                    @foreach (var item in ViewBag.parts)
+                    {
+                        <option value="@item.Value">@item.Key</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-xs-4">
+            <label asp-for="workerID" class="control-label">Сотрудник</label>
+            <div id="g">
+                <select asp-for="workerID" class="form-control">
+                    @foreach (var item in ViewBag.workers)
+                    {
+                        <option value="@item.Value">@item.Key</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-xs-4">
+            <input type="submit" value="Добавить" class="btn btn-default" />
+        </div>
+    </div>
+
+</form>
+

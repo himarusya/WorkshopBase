@@ -21,9 +21,31 @@ namespace WorshopBase.Controllers
             db = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int page = 1)
         {
-            return View(db.Parts.ToList());
+            int pageSize = 5;
+            List<PartViewModel> list = new List<PartViewModel>();
+            var parts = db.Parts;
+            foreach (var part in parts)
+            {
+                list.Add(new PartViewModel
+                {
+                    Id = part.partID,
+                    partName = part.partName,
+                    price = part.price,
+                    descriptionPart = part.descriptionPart
+                });
+            }
+            IQueryable<PartViewModel> filterList = list.AsQueryable();
+            var count = filterList.Count();
+            var items = filterList.Skip((page - 1) * pageSize).
+                Take(pageSize).ToList();
+            PartsListViewModel model = new PartsListViewModel
+            {
+                PageViewModel = new PageViewModel(count, page, pageSize),
+                Parts = items
+            };
+            return View(model);
         }
 
         public IActionResult Create()
@@ -114,6 +136,15 @@ namespace WorshopBase.Controllers
             db.Parts.Remove(part);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        public IActionResult AccessDenied(string returnUrl = null)
+        {
+            ErrorViewModel error = new ErrorViewModel
+            {
+                RequestId = "Доступ только для администратора!"
+            };
+            return View("Error", error);
         }
     }
 }
