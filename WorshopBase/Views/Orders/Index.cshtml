@@ -16,15 +16,15 @@
         <div asp-validation-summary="All" class="text-danger"></div>
         <label class="control-label">Номер гос. прав: </label>
         @Html.TextBox("Car", Model.OrderFilterViewModel.Car,
-                htmlAttributes: new { @class = "form-control", @id = "Car" })
+                htmlAttributes: new { @class = "form-control", @id = "Car", style = "width:119px" })
 
         <label class="control-label">от: </label>
-        @Html.TextBox("_date1", Model.OrderFilterViewModel._date1, DateTime.Now.ToString("dd.MM.yyyy"),
-                htmlAttributes: new { @class = "form-control", @id = "_date1", style = "width:100px" })
+        @Html.TextBox("_date1", Model.OrderFilterViewModel._date1,
+                htmlAttributes: new { @class = "form-control", @id = "_date1", @type = "date", style = "width:150px" })
 
         <label class="control-label">до: </label>
-        @Html.TextBox("_date2", Model.OrderFilterViewModel._date2, DateTime.Now.ToString("dd.MM.yyyy"),
-                htmlAttributes: new { @class = "form-control", @id = "_date2", style = "width:100px" })
+        @Html.TextBox("_date2", Model.OrderFilterViewModel._date2,
+                htmlAttributes: new { @class = "form-control", @id = "_date2", @type = "date", style = "width:150px" })
 
         @Html.DropDownList("_selectedType", new SelectList((new List<string>() { "Все", "Отремонтированные", "Поступившие" })),
                 htmlAttributes: new { @class = "form-control", @id = "_selectedType" })
@@ -32,7 +32,7 @@
         <label class="control-label">Сотрудник: </label>
         @Html.DropDownList("SelectedWorker", Model.OrderFilterViewModel.Workers as SelectList,
                 htmlAttributes: new { @class = "form-control", @id = "SelectedWorker" })
-        <input type="submit" value="Поиск" class="btn btn-default" style='width:100px' />
+        <input type="submit" value="Поиск" class="btn btn-default" style='width:90px' />
     </div>
 </form>
 <br />
