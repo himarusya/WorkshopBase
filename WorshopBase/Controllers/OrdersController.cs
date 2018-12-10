@@ -215,23 +215,52 @@ namespace WorshopBase.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Order model)
         {
-            HomeViewModel entryCache = memoryCache.Get<HomeViewModel>("Workshop");
-            if (ModelState.IsValid)
+            try
             {
-                Order order = new Order()
+                HomeViewModel entryCache = memoryCache.Get<HomeViewModel>("Workshop");
+                if (ModelState.IsValid)
                 {
-                    carID = model.carID,
-                    dateReceipt = model.dateReceipt,
-                    dateCompletion = model.dateCompletion,
-                    workerID = model.workerID
-                };
-                await db.Orders.AddAsync(order);
-                await db.SaveChangesAsync();
-                var workshop = service.GetHomeViewModel();
-                memoryCache.Set("Workshop", workshop);
-                return RedirectToAction("Index");
+                    Order order = new Order()
+                    {
+                        carID = model.carID,
+                        dateReceipt = model.dateReceipt,
+                        dateCompletion = model.dateCompletion,
+                        workerID = model.workerID
+                    };
+                    if (model.dateReceipt > model.dateCompletion)
+                    {
+                        ModelState.AddModelError("dateReceipt", "dateReceipt is not correct");
+                    }
+                    await db.Orders.AddAsync(order);
+                    await db.SaveChangesAsync();
+                    var workshop = service.GetHomeViewModel();
+                    memoryCache.Set("Workshop", workshop);
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(ex.Source, "Invalid value for one of fields");
             }
             return View(model);
+
+            //HomeViewModel entryCache = memoryCache.Get<HomeViewModel>("Workshop");
+            //if (ModelState.IsValid)
+            //{
+            //    Order order = new Order()
+            //    {
+            //        carID = model.carID,
+            //        dateReceipt = model.dateReceipt,
+            //        dateCompletion = model.dateCompletion,
+            //        workerID = model.workerID
+            //    };
+            //    await db.Orders.AddAsync(order);
+            //    await db.SaveChangesAsync();
+            //    var workshop = service.GetHomeViewModel();
+            //    memoryCache.Set("Workshop", workshop);
+            //    return RedirectToAction("Index");
+            //}
+            //return View(model);
         }
 
         public IActionResult Edit(int? id)
@@ -298,6 +327,8 @@ namespace WorshopBase.Controllers
             db.Orders.Remove(оrder);
 
             await db.SaveChangesAsync();
+            var workshop = service.GetHomeViewModel();
+            memoryCache.Set("Workshop", workshop);
             return RedirectToAction("Index");
         }
 

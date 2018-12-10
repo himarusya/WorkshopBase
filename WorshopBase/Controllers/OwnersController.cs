@@ -196,11 +196,12 @@ namespace WorshopBase.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> CreateCar(CreateCarViewModel model)
         {
+            int ownerId = Convert.ToInt32(Request.Form.FirstOrDefault(p => p.Key == "ownerID").Value);
             try
             {
-                Car car = new Car
+                CreateCarViewModel mod = new CreateCarViewModel
                 {
-                    ownerID = Convert.ToInt32(Request.Form.FirstOrDefault(p => p.Key == "ownerID").Value),
+                    ownerID = ownerId,
                     model = Request.Form.FirstOrDefault(p => p.Key == "model").Value,
                     vis = Convert.ToInt32(Request.Form.FirstOrDefault(p => p.Key == "vis").Value),
                     colour = Request.Form.FirstOrDefault(p => p.Key == "colour").Value,
@@ -208,16 +209,60 @@ namespace WorshopBase.Controllers
                     yearOfIssue = Convert.ToInt32(Request.Form.FirstOrDefault(p => p.Key == "yearOfIssue").Value),
                     bodyNumber = Convert.ToInt32(Request.Form.FirstOrDefault(p => p.Key == "bodyNumber").Value),
                     engineNumber = Convert.ToInt32(Request.Form.FirstOrDefault(p => p.Key == "engineNumber").Value)
-            };
+                };
+                if(string.IsNullOrEmpty(mod.model))
+                {
+                    ModelState.AddModelError("model", "Model is not correct");
+                }
+                if(mod.vis < 100 || mod.vis > 500)
+                {
+                    ModelState.AddModelError("vis", "Vis must be value between 100 and 500");
+                }
+                if (string.IsNullOrEmpty(mod.colour))
+                {
+                    ModelState.AddModelError("colour", "Colour is not correct");
+                }
+                if (string.IsNullOrEmpty(mod.stateNumber))
+                {
+                    ModelState.AddModelError("stateNumber", "StateNumber is not correct");
+                }
+                if (mod.yearOfIssue < 1885 || mod.yearOfIssue > 2018)
+                {
+                    ModelState.AddModelError("yearOfIssue", "YearOfIssue must be value between 1885 and 2018");
+                }
+                if (mod.bodyNumber < 100 || mod.bodyNumber > 999)
+                {
+                    ModelState.AddModelError("bodyNumber", "BodyNumber must be value between 100 and 999");
+                }
+                if (mod.engineNumber < 100 || mod.engineNumber > 999)
+                {
+                    ModelState.AddModelError("engineNumber", "EngineNumber must be value between 100 and 999");
+                }
+                if (ModelState.ErrorCount > 0)
+                {
+                    return View(mod);
+                }
+                Car car = new Car()
+                {
+                    stateNumber = mod.stateNumber,
+                    bodyNumber = mod.bodyNumber,
+                    colour = mod.colour,
+                    engineNumber = mod.engineNumber,
+                    model = mod.model,
+                    ownerID = ownerId,
+                    vis = mod.vis,
+                    yearOfIssue = mod.yearOfIssue
+                };
                 await db.Cars.AddAsync(car);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Cars", new { id = car.ownerID });
             }
             catch (Exception ex)
             {
-
+                ViewBag.ownerID = ownerId;
+                ModelState.AddModelError(ex.Source, "Invalid value for one of fields");
             }
-            ViewBag.ownerID = model.ownerID;
+            ViewBag.ownerID = ownerId;
             return View(model);
         }
 
